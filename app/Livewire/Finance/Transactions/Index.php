@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Ledger;
 use App\Services\ExportService;
 use App\Services\LedgerService;
-use Flux\Flux;
+
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -214,7 +214,7 @@ class Index extends Component
         $this->showModal = false;
         $this->resetForm();
         unset($this->ledgers);
-        Flux::toast(heading: 'Berhasil', text: 'Transaksi berhasil disimpan.', variant: 'success');
+        $this->dispatch('notify', type: 'success', message: 'Transaksi berhasil disimpan.');
     }
 
     // ── Submit Transfer ───────────────────────────────────────────────────────
@@ -241,7 +241,7 @@ class Index extends Component
         $this->showModal = false;
         $this->resetForm();
         unset($this->ledgers);
-        Flux::toast(heading: 'Berhasil', text: 'Transfer berhasil dicatat.', variant: 'success');
+        $this->dispatch('notify', type: 'success', message: 'Transfer berhasil dicatat.');
     }
 
     // ── Delete ────────────────────────────────────────────────────────────────
@@ -251,7 +251,7 @@ class Index extends Component
         $ledger = Ledger::findOrFail($id);
         $service->deleteLedger($ledger);
         unset($this->ledgers);
-        Flux::toast(heading: 'Dihapus', text: 'Transaksi telah dihapus.', variant: 'success');
+        $this->dispatch('notify', type: 'warning', message: 'Transaksi telah dihapus.');
     }
 
     // ── Export CSV ────────────────────────────────────────────────────────────

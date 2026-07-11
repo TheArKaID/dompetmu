@@ -4,7 +4,7 @@ namespace App\Livewire\Settings;
 
 use App\Concerns\PasswordValidationRules;
 use Exception;
-use Flux\Flux;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
@@ -90,7 +90,7 @@ class Security extends Component
 
         $this->reset('current_password', 'password', 'password_confirmation');
 
-        Flux::toast(variant: 'success', text: __('Password updated.'));
+        $this->dispatch('notify', type: 'success', message: __('Password updated.'));
     }
 
     /**

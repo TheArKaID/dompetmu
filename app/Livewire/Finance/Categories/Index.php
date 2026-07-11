@@ -4,7 +4,7 @@ namespace App\Livewire\Finance\Categories;
 
 use App\Enums\CategoryType;
 use App\Models\Category;
-use Flux\Flux;
+
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -66,10 +66,10 @@ class Index extends Component
         if ($this->editingId) {
             $cat = Category::findOrFail($this->editingId);
             $cat->update(['name' => $this->name, 'type' => $this->type]);
-            Flux::toast(heading: 'Diperbarui', text: 'Kategori berhasil diperbarui.', variant: 'success');
+            $this->dispatch('notify', type: 'success', message: 'Kategori berhasil diperbarui.');
         } else {
             Category::create(['name' => $this->name, 'type' => $this->type]);
-            Flux::toast(heading: 'Ditambahkan', text: 'Kategori baru berhasil dibuat.', variant: 'success');
+            $this->dispatch('notify', type: 'success', message: 'Kategori baru berhasil dibuat.');
         }
 
         $this->showModal = false;
@@ -83,17 +83,13 @@ class Index extends Component
         $cat = Category::findOrFail($id);
 
         if ($cat->ledgers()->exists()) {
-            Flux::toast(
-                heading: 'Tidak Bisa Dihapus',
-                text: 'Kategori ini masih digunakan oleh transaksi yang ada.',
-                variant: 'danger'
-            );
+            $this->dispatch('notify', type: 'danger', message: 'Kategori ini masih digunakan oleh transaksi yang ada.');
             return;
         }
 
         $cat->delete();
         unset($this->incomeCategories, $this->expenseCategories);
-        Flux::toast(heading: 'Dihapus', text: 'Kategori berhasil dihapus.', variant: 'success');
+        $this->dispatch('notify', type: 'success', message: 'Kategori berhasil dihapus.');
     }
 
     public function render()

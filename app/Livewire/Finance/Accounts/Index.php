@@ -3,7 +3,7 @@
 namespace App\Livewire\Finance\Accounts;
 
 use App\Models\Account;
-use Flux\Flux;
+
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -61,13 +61,13 @@ class Index extends Component
                 'name'            => $this->name,
                 'initial_balance' => $this->initialBalance,
             ]);
-            Flux::toast(heading: 'Diperbarui', text: 'Rekening berhasil diperbarui.', variant: 'success');
+            $this->dispatch('notify', type: 'success', message: 'Rekening berhasil diperbarui.');
         } else {
             Account::create([
                 'name'            => $this->name,
                 'initial_balance' => $this->initialBalance,
             ]);
-            Flux::toast(heading: 'Ditambahkan', text: 'Rekening baru berhasil dibuat.', variant: 'success');
+            $this->dispatch('notify', type: 'success', message: 'Rekening baru berhasil dibuat.');
         }
 
         $this->showModal = false;
@@ -81,17 +81,13 @@ class Index extends Component
         $account = Account::findOrFail($id);
 
         if ($account->ledgers()->exists()) {
-            Flux::toast(
-                heading: 'Tidak Bisa Dihapus',
-                text: 'Rekening ini masih memiliki transaksi. Hapus transaksi terlebih dahulu.',
-                variant: 'danger'
-            );
+            $this->dispatch('notify', type: 'danger', message: 'Rekening ini masih memiliki transaksi. Hapus transaksi terlebih dahulu.');
             return;
         }
 
         $account->delete();
         unset($this->accounts);
-        Flux::toast(heading: 'Dihapus', text: 'Rekening berhasil dihapus.', variant: 'success');
+        $this->dispatch('notify', type: 'success', message: 'Rekening berhasil dihapus.');
     }
 
     public function render()

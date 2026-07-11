@@ -3,7 +3,7 @@
 namespace App\Livewire\Finance\Import;
 
 use App\Services\LedgerService;
-use Flux\Flux;
+
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
@@ -39,16 +39,9 @@ class Index extends Component
             $this->total    = $result['total'];
             $this->errors   = $result['errors'];
             $this->status   = 'done';
-
-            Flux::toast(
-                heading: 'Import Selesai',
-                text: "{$this->imported} dari {$this->total} transaksi berhasil diimpor.",
-                variant: 'success'
-            );
         } catch (\Throwable $e) {
             $this->status = 'error';
             $this->errors = [$e->getMessage()];
-            Flux::toast(heading: 'Import Gagal', text: $e->getMessage(), variant: 'danger');
         }
     }
 
