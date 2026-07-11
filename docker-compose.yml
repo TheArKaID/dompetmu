@@ -1,0 +1,42 @@
+services:
+  app:
+    image: adminmeetaza/cis-bsi-demo:latest
+    build:
+      context: .
+    ports:
+      - "8088:8000"
+    environment:
+      LOG_STACK: daily
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: cisbsi
+      DB_USERNAME: cisbsi
+      DB_PASSWORD: NonAdmin2
+    depends_on:
+      - db
+    networks:
+      - cis-bsi-network
+    volumes:
+      - app-data:/app/storage/app
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: SiPalingAdmin1
+      MYSQL_DATABASE: cisbsi
+      MYSQL_USER: cisbsi
+      MYSQL_PASSWORD: NonAdmin2
+    networks:
+      - cis-bsi-network
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3336:3306"
+
+networks:
+  cis-bsi-network:
+    driver: bridge
+
+volumes:
+  db-data:
+  app-data:
