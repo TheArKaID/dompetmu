@@ -51,9 +51,9 @@
                         wire:model="csvFile"
                         accept=".csv,.txt"
                         class="mt-2 block w-full max-w-xs text-sm text-zinc-400
-                               file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0
-                               file:text-sm file:font-medium file:bg-violet-600/20 file:text-violet-300
-                               hover:file:bg-violet-600/30 cursor-pointer" />
+                                file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0
+                                file:text-sm file:font-medium file:bg-violet-600/20 file:text-violet-300
+                                hover:file:bg-violet-600/30 cursor-pointer" />
 
                     @error('csvFile')
                     <p class="text-rose-400 text-xs">{{ $message }}</p>
@@ -73,10 +73,13 @@
             @endif
 
             <div class="flex justify-end">
-                <flux:button type="submit" variant="primary" icon="arrow-up-tray" :disabled="!$csvFile">
+                <button type="submit" class="button button--primary inline-flex items-center gap-1.5" :disabled="!$csvFile">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    </svg>
                     <span wire:loading.remove wire:target="import">Mulai Import</span>
                     <span wire:loading wire:target="import">Sedang memproses...</span>
-                </flux:button>
+                </button>
             </div>
         </form>
         @endif
@@ -110,10 +113,19 @@
             @endif
 
             <div class="flex gap-3">
-                <flux:button wire:click="resetImport" variant="ghost" icon="arrow-path">Import Lagi</flux:button>
-                <flux:button href="{{ route('finance.transactions') }}" wire:navigate variant="primary" icon="eye">
-                    Lihat Transaksi
-                </flux:button>
+                <button type="button" wire:click="resetImport" class="button button--ghost button--neutral inline-flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                    </svg>
+                    <span>Import Lagi</span>
+                </button>
+                <a href="{{ route('finance.transactions') }}" wire:navigate class="button button--primary inline-flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span>Lihat Transaksi</span>
+                </a>
             </div>
         </div>
         @endif
@@ -133,7 +145,12 @@
                     @endforeach
                 </div>
             </div>
-            <flux:button wire:click="resetImport" variant="ghost" icon="arrow-path">Coba Lagi</flux:button>
+            <button type="button" wire:click="resetImport" class="button button--ghost button--neutral inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                </svg>
+                <span>Coba Lagi</span>
+            </button>
         </div>
         @endif
     </div>

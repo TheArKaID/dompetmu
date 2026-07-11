@@ -12,9 +12,12 @@
                 wire:model.live="selectedMonth"
                 class="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
-            <flux:button href="{{ route('finance.transactions') }}" wire:navigate icon="plus" variant="primary">
-                Tambah Transaksi
-            </flux:button>
+            <a href="{{ route('finance.transactions') }}" wire:navigate class="button button--primary flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span>Tambah Transaksi</span>
+            </a>
         </div>
     </div>
 
@@ -126,9 +129,17 @@
                             <span class="text-white text-sm font-medium truncate max-w-[140px]">
                                 {{ $ledger->category?->name ?? $ledger->contact_name ?? $ledger->transaction_type->label() }}
                             </span>
-                            <flux:badge size="sm" :color="$ledger->transaction_type->color()">
+                            @php
+                                $badgeColor = match($ledger->transaction_type->color()) {
+                                    'emerald' => 'badge--success',
+                                    'rose' => 'badge--danger',
+                                    'indigo' => 'badge--primary',
+                                    default => 'badge--neutral',
+                                };
+                            @endphp
+                            <span class="badge badge--soft {{ $badgeColor }} badge--sm">
                                 {{ $ledger->transaction_type->label() }}
-                            </flux:badge>
+                            </span>
                         </div>
                         <p class="text-zinc-500 text-xs mt-0.5">
                             {{ $ledger->account->name }} · {{ $ledger->transaction_date->format('d M Y, H:i') }}
@@ -145,9 +156,12 @@
             @empty
             <div class="py-16 text-center">
                 <p class="text-zinc-500 text-sm">Belum ada transaksi.</p>
-                <flux:button href="{{ route('finance.transactions') }}" wire:navigate size="sm" class="mt-3" icon="plus">
-                    Catat Transaksi Pertama
-                </flux:button>
+                <a href="{{ route('finance.transactions') }}" wire:navigate class="button button--sm button--neutral mt-3 inline-flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    <span>Catat Transaksi Pertama</span>
+                </a>
             </div>
             @endforelse
         </div>

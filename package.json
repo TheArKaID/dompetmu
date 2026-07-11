@@ -3,10 +3,12 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "build": "bun x --bun vite build",
+        "dev": "bun x --bun vite"
     },
     "dependencies": {
+        "@stisla/css": "^3.0.1",
+        "@stisla/vanilla": "^3.0.2",
         "@tailwindcss/vite": "^4.1.11",
         "autoprefixer": "^10.4.20",
         "concurrently": "^9.0.1",
