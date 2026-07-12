@@ -7,24 +7,14 @@
                 showRecoveryInput: @js($errors->has('recovery_code')),
                 code: '',
                 recovery_code: '',
-                focusOtp() {
-                    this.$nextTick(() => this.$refs.otp?.querySelector('input')?.focus());
-                },
-                init() {
-                    if (! this.showRecoveryInput) {
-                        this.focusOtp();
-                    }
-                },
                 toggleInput() {
                     this.showRecoveryInput = !this.showRecoveryInput;
-
                     this.code = '';
                     this.recovery_code = '';
-
                     $nextTick(() => {
                         this.showRecoveryInput
                             ? this.$refs.recovery_code?.focus()
-                            : this.focusOtp();
+                            : this.$refs.code?.focus();
                     });
                 },
             }"
@@ -43,54 +33,40 @@
                 />
             </div>
 
-            <form method="POST" action="{{ route('two-factor.login.store') }}">
+            <form method="POST" action="{{ route('two-factor.login.store') }}" class="mt-4">
                 @csrf
 
-                <div class="space-y-5 text-center">
+                <div class="space-y-4">
                     <div x-show="!showRecoveryInput">
-                        <div class="flex items-center justify-center my-5" x-ref="otp">
-                            <flux:otp
-                                x-model="code"
-                                length="6"
-                                name="code"
-                                label="OTP Code"
-                                label:sr-only
-                                class="mx-auto"
-                             />
+                        <div>
+                            <label for="code" class="text-zinc-400 text-xs font-medium block mb-1.5">{{ __('Verification Code') }}</label>
+                            <input id="code" type="text" name="code" x-ref="code" x-model="code" maxlength="6" inputmode="numeric" placeholder="123456" autocomplete="one-time-code"
+                                   class="w-full bg-zinc-800 border border-zinc-700 text-zinc-200 text-center text-xl tracking-widest rounded-xl px-3 py-2.5 outline-none focus:ring-1 focus:ring-violet-500">
+                            @error('code')
+                            <p class="text-rose-400 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div x-show="showRecoveryInput">
-                        <div class="my-5">
-                            <flux:input
-                                type="text"
-                                name="recovery_code"
-                                x-ref="recovery_code"
-                                x-bind:required="showRecoveryInput"
-                                autocomplete="one-time-code"
-                                x-model="recovery_code"
-                            />
+                        <div>
+                            <label for="recovery_code" class="text-zinc-400 text-xs font-medium block mb-1.5">{{ __('Recovery Code') }}</label>
+                            <input id="recovery_code" type="text" name="recovery_code" x-ref="recovery_code" x-model="recovery_code" autocomplete="one-time-code" placeholder="abcdef-123456"
+                                   class="w-full bg-zinc-800 border border-zinc-700 text-zinc-200 text-center text-sm rounded-xl px-3 py-2.5 outline-none focus:ring-1 focus:ring-violet-500">
+                            @error('recovery_code')
+                            <p class="text-rose-400 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
-
-                        @error('recovery_code')
-                            <flux:text color="red">
-                                {{ $message }}
-                            </flux:text>
-                        @enderror
                     </div>
 
-                    <flux:button
-                        variant="primary"
-                        type="submit"
-                        class="w-full"
-                    >
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold transition-colors active:scale-95 flex items-center justify-center">
                         {{ __('Continue') }}
-                    </flux:button>
+                    </button>
                 </div>
 
-                <div class="mt-5 space-x-0.5 text-sm leading-5 text-center">
+                <div class="mt-5 space-x-0.5 text-sm leading-5 text-center text-zinc-400">
                     <span class="opacity-50">{{ __('or you can') }}</span>
-                    <div class="inline font-medium underline cursor-pointer opacity-80">
+                    <div class="inline font-medium underline cursor-pointer text-violet-400 hover:text-violet-300">
                         <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('login using a recovery code') }}</span>
                         <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('login using an authentication code') }}</span>
                     </div>

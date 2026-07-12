@@ -30,7 +30,7 @@ enum TransactionType: string
         };
     }
 
-    /** Flux badge color variant */
+    /** Badge color variant */
     public function color(): string
     {
         return match ($this) {

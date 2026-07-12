@@ -20,8 +20,8 @@
 
                 <div class="relative z-20 mt-auto">
                     <blockquote class="space-y-2">
-                        <flux:heading size="lg">&ldquo;{{ trim($message) }}&rdquo;</flux:heading>
-                        <footer><flux:heading>{{ trim($author) }}</flux:heading></footer>
+                        <p class="text-lg text-white font-medium">&ldquo;{{ trim($message) }}&rdquo;</p>
+                        <footer><p class="text-sm text-zinc-400 mt-2">{{ trim($author) }}</p></footer>
                     </blockquote>
                 </div>
             </div>
@@ -31,20 +31,11 @@
                         <span class="flex h-9 w-9 items-center justify-center rounded-md">
                             <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
                         </span>
-
                         <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
                     </a>
                     {{ $slot }}
                 </div>
             </div>
         </div>
-
-        @persist('toast')
-            <flux:toast.group>
-                <flux:toast />
-            </flux:toast.group>
-        @endpersist
-
-        @fluxScripts
     </body>
 </html>
