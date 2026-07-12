@@ -1,4 +1,4 @@
-<div class="min-h-screen p-4 sm:p-6 space-y-5" x-data="{ showModal: @entangled('showModal') }">
+<div class="min-h-screen p-4 sm:p-6 space-y-5" x-data="{ showModal: @entangle('showModal') }">
 
     {{-- ── Page Header ─────────────────────────────────────────────────────── --}}
     <div class="flex items-center justify-between">

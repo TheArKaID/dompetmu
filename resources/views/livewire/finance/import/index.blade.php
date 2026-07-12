@@ -73,7 +73,7 @@
             @endif
 
             <div class="flex justify-end">
-                <button type="submit" class="button button--primary inline-flex items-center gap-1.5" :disabled="!$csvFile">
+                <button type="submit" class="button button--primary inline-flex items-center gap-1.5" @disabled(!$csvFile)>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                     </svg>
@@ -101,11 +101,11 @@
                 </div>
             </div>
 
-            @if(count($errors) > 0)
+            @if(count($importErrors) > 0)
             <div class="bg-zinc-800 rounded-xl p-4">
-                <p class="text-zinc-300 text-sm font-medium mb-2">⚠️ {{ count($errors) }} baris gagal:</p>
+                <p class="text-zinc-300 text-sm font-medium mb-2">⚠️ {{ count($importErrors) }} baris gagal:</p>
                 <ul class="space-y-1">
-                    @foreach($errors as $err)
+                    @foreach($importErrors as $err)
                     <li class="text-zinc-400 text-xs">• {{ $err }}</li>
                     @endforeach
                 </ul>
@@ -140,7 +140,7 @@
                 </div>
                 <div>
                     <p class="text-rose-300 font-semibold">Import Gagal</p>
-                    @foreach($errors as $err)
+                    @foreach($importErrors as $err)
                     <p class="text-rose-400/80 text-sm">{{ $err }}</p>
                     @endforeach
                 </div>

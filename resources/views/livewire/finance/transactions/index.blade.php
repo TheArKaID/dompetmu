@@ -1,7 +1,7 @@
 <div class="min-h-screen pb-4 space-y-0"
      x-data="{
          showFilters: false,
-         showModal: @entangled('showModal'),
+         showModal: @entangle('showModal'),
      }">
 
     {{-- ── Sticky Header ────────────────────────────────────────────────────────── --}}

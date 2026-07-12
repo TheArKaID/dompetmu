@@ -22,36 +22,36 @@ class Index extends Component
     public string $status      = 'idle';   // idle | done | error
     public int $imported       = 0;
     public int $total          = 0;
-    public array $errors       = [];
+    public array $importErrors = [];
 
     public function import(LedgerService $service): void
     {
         $this->validate();
 
-        $this->status   = 'idle';
-        $this->errors   = [];
-        $this->imported = 0;
+        $this->status       = 'idle';
+        $this->importErrors = [];
+        $this->imported     = 0;
 
         try {
             $result = $service->importFromCsv($this->csvFile);
 
-            $this->imported = $result['imported'];
-            $this->total    = $result['total'];
-            $this->errors   = $result['errors'];
-            $this->status   = 'done';
+            $this->imported     = $result['imported'];
+            $this->total        = $result['total'];
+            $this->importErrors = $result['errors'];
+            $this->status       = 'done';
         } catch (\Throwable $e) {
-            $this->status = 'error';
-            $this->errors = [$e->getMessage()];
+            $this->status       = 'error';
+            $this->importErrors = [$e->getMessage()];
         }
     }
 
     public function resetImport(): void
     {
-        $this->csvFile  = null;
-        $this->status   = 'idle';
-        $this->errors   = [];
-        $this->imported = 0;
-        $this->total    = 0;
+        $this->csvFile      = null;
+        $this->status       = 'idle';
+        $this->importErrors = [];
+        $this->imported     = 0;
+        $this->total        = 0;
     }
 
     public function render()
